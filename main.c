@@ -112,6 +112,36 @@ void printImageInfo(t_image *image){
   printf("Offset: 0x32 Byte: 4 biClrImportant : 0x%x\n",image->infoheader->biClrImportant); 
 }
 
+// pxl auslesen
+void getPixel(t_image *image, int x, int y, uint8_t *r, uint8_t *g, uint8_t *b) 
+{
+    int width = image->infoheader->biWidth;
+    int height = abs(image->infoheader->biHeight);
+
+    if (x < 0 || x >= width || y < 0 || y >= height) {
+        return;
+    }
+
+    int rowSize = width * 3; // wegen rgb * 3   --> byte größe
+    while (rowSize % 4 != 0) {
+        rowSize++;  }  // "padding bits" werden dann eh nd eingelesen beim lesen aber man muss 
+        // laut bmp immer auf 4 bits auffüllen damit zeilen gleich groß --> leichter zum lesen
+
+    
+    int row = y;
+    
+    // line finden
+    if (image->infoheader->biHeight > 0){
+        row = height - 1 - y;}
+
+    // pxl finden
+    int position = row * rowSize + x * 3;
+
+    
+}
+
+
+
 
 
 
